@@ -10,6 +10,7 @@ namespace FinancialApp
             Routing.RegisterRoute(nameof(RegistroPage), typeof(RegistroPage));
             Routing.RegisterRoute(nameof(RegistroPage), typeof(RegistroPage));
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
+            Routing.RegisterRoute(nameof(NuevoMovimientoPage), typeof(NuevoMovimientoPage));
         }
     }
 }

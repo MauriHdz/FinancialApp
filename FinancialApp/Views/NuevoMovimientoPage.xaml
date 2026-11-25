@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FinancialApp.ViewModels"
+             xmlns:models="clr-namespace:FinancialApp.Models"
+             x:Class="FinancialApp.Views.NuevoMovimientoPage"
+             x:DataType="vm:NuevoMovimientoViewModel"
+             Title="{Binding TituloFormulario}"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F4F6F9">
+
+    <ContentPage.BindingContext>
+        <vm:NuevoMovimientoViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Grid ColumnDefinitions="Auto,*" VerticalOptions="Center" Margin="0,4,0,6">
+                <Button Grid.Column="0"
+                        Text="← Volver"
+                        Command="{Binding CancelarCommand}"
+                        BackgroundColor="#E2E8F0"
+                        TextColor="#072146"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="36"
+                        Padding="14,0" />
+                <Label Grid.Column="1"
+                       Text="{Binding TituloFormulario}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#072146"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Monto ($)" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="14,4">
+                    <Entry Text="{Binding MontoTexto}"
+                           Placeholder="0.00"
+                           Keyboard="Numeric"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#072146" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Concepto / Descripción" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="14,2">
+                    <Entry Text="{Binding Descripcion}"
+                           Placeholder="Ej. Pago de quincena, Súper, Renta..."
+                           TextColor="#0F172A" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Categoría" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="10,2">
+                    <Picker ItemsSource="{Binding CategoriasDisponibles}"
+                            SelectedItem="{Binding CategoriaSeleccionada}"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            Title="Selecciona una categoría"
+                            TextColor="#0F172A" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Fecha del movimiento" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="14,2">
+                    <DatePicker Date="{Binding FechaMovimiento}"
+                                Format="dd/MM/yyyy"
+                                TextColor="#0F172A" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6" IsVisible="{Binding EsIngreso}">
+                <Label Text="Fuente del ingreso" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="14,2">
+                    <Entry Text="{Binding FuenteIngreso}"
+                           Placeholder="Ej. Nómina, Cliente, Bono"
+                           TextColor="#0F172A" />
+                </Border>
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Spacing="10" IsVisible="{Binding EsGasto}" VerticalOptions="Center">
+                <CheckBox IsChecked="{Binding EsGastoFijo}" Color="#004481" />
+                <Label Text="Es un gasto fijo mensual (renta, internet, etc.)"
+                       TextColor="#334155"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Spacing="6" IsVisible="{Binding EsAhorro}">
+                <Label Text="Meta objetivo total ($)" FontAttributes="Bold" TextColor="#072146" />
+                <Border Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="White" Padding="14,2">
+                    <Entry Text="{Binding MetaObjetivoTexto}"
+                           Placeholder="5000.00"
+                           Keyboard="Numeric"
+                           TextColor="#0F172A" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Label Text="{Binding MensajeError}"
+                   TextColor="#DC2626"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+
+            <ActivityIndicator IsRunning="{Binding EstaCargando}"
+                               IsVisible="{Binding EstaCargando}"
+                               Color="#004481" />
+
+            <Button Text="Guardar Movimiento"
+                    Command="{Binding GuardarMovimientoCommand}"
+                    BackgroundColor="#004481"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -80,6 +80,17 @@ namespace FinancialApp.ViewModels
         }
 
         [RelayCommand]
+        private async Task AbrirNuevoMovimientoAsync (string tipo)
+        {
+            var parametros = new Dictionary<string, object>
+            {
+                { "UsuarioId", UsuarioId },
+                { "TipoSeleccionado", tipo }
+            };
+            await Shell.Current.GoToAsync(nameof(Views.NuevoMovimientoPage), parametros);
+        }
+
+        [RelayCommand]
         private async Task CerrarSesionAsync()
         {
             await Shell.Current.GoToAsync("..");

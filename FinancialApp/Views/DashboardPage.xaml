@@ -115,6 +115,9 @@
                                 StrokeShape="RoundRectangle 26"
                                 BackgroundColor="#004481"
                                 StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirNuevoMovimientoCommand}" CommandParameter="Ingreso" />
+                            </Border.GestureRecognizers>
                             <Label Text="+$" FontSize="16" FontAttributes="Bold" TextColor="White"
                                    HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
@@ -126,6 +129,9 @@
                                 StrokeShape="RoundRectangle 26"
                                 BackgroundColor="#004481"
                                 StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirNuevoMovimientoCommand}" CommandParameter="Gasto" />
+                            </Border.GestureRecognizers>
                             <Label Text="-$" FontSize="16" FontAttributes="Bold" TextColor="White"
                                    HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
@@ -137,6 +143,9 @@
                                 StrokeShape="RoundRectangle 26"
                                 BackgroundColor="#004481"
                                 StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirNuevoMovimientoCommand}" CommandParameter="Ahorro" />
+                            </Border.GestureRecognizers>
                             <Label Text="★" FontSize="16" TextColor="White"
                                    HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>

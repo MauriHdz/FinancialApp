@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FinancialApp.ViewModels"
+             x:Class="FinancialApp.Views.RegistroPage"
+             x:DataType="vm:RegistroViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F5F7FA">
+
+    <ContentPage.BindingContext>
+        <vm:RegistroViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30"
+                             Spacing="18"
+                             VerticalOptions="Center">
+
+            <VerticalStackLayout Spacing="4"
+                                 Margin="0,0,0,15">
+
+                <Label Text="Crea tu cuenta"
+                       FontSize="30"
+                       FontFamily="RalewayBold"
+                       TextColor="#1E293B"
+                       HorizontalOptions="Center" />
+
+                <Label Text="Completa tus datos para comenzar"
+                       FontSize="14"
+                       FontFamily="RalewayRegular"
+                       TextColor="#64748B"
+                       HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+
+                <Label Text="Nombre completo"
+                       FontFamily="RalewaySemiBold"
+                       TextColor="#334155" />
+
+                <Border Stroke="#CBD5E1"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        Padding="12,2">
+
+                    <Entry Text="{Binding Nombre}"
+                           Placeholder="Ej. Mauricio Hernández"
+                           FontFamily="RalewayRegular"
+                           TextColor="#0F172A" />
+
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+
+                <Label Text="Correo electrónico"
+                       FontFamily="RalewaySemiBold"
+                       TextColor="#334155" />
+
+                <Border Stroke="#CBD5E1"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        Padding="12,2">
+
+                    <Entry Text="{Binding Correo}"
+                           Placeholder="usuario@ejemplo.com"
+                           Keyboard="Email"
+                           FontFamily="RalewayRegular"
+                           TextColor="#0F172A" />
+
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+
+                <Label Text="Contraseña"
+                       FontFamily="RalewaySemiBold"
+                       TextColor="#334155" />
+
+                <Border Stroke="#CBD5E1"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        Padding="12,2">
+
+                    <Entry Text="{Binding Contrasena}"
+                           Placeholder="Mínimo 4 caracteres"
+                           IsPassword="True"
+                           FontFamily="RalewayRegular"
+                           TextColor="#0F172A" />
+
+                </Border>
+            </VerticalStackLayout>
+
+            <Label Text="{Binding MensajeError}"
+                   FontFamily="RalewayMedium"
+                   TextColor="#DC2626"
+                   FontSize="13"
+                   HorizontalTextAlignment="Center" />
+
+            <ActivityIndicator IsRunning="{Binding EstaCargando}"
+                               IsVisible="{Binding EstaCargando}"
+                               Color="#2E784D" />
+
+            <Button Text="Registrarme"
+                    Command="{Binding RegistrarUsuarioCommand}"
+                    BackgroundColor="#2E784D"
+                    TextColor="White"
+                    FontFamily="RalewayBold"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            <Button Text="Volver al Login"
+                    Command="{Binding VolverCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#808080"
+                    FontFamily="RalewayBold"
+                    FontSize="14"
+                    Padding="0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

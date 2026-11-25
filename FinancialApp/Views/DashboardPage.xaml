@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FinancialApp.ViewModels"
+             xmlns:models="clr-namespace:FinancialApp.Models"
+             x:Class="FinancialApp.Views.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="Inicio"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F4F6F9">
+
+    <ContentPage.BindingContext>
+        <vm:DashboardViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*" Padding="20" RowSpacing="16">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="16">
+
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Inicio"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#004481" />
+                    <Label Text="{Binding NombreUsuario, StringFormat='Hola, {0}'}"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#072146" />
+                </VerticalStackLayout>
+
+                <Button Grid.Column="1"
+                        Text="Salir"
+                        Command="{Binding CerrarSesionCommand}"
+                        BackgroundColor="#E2E8F0"
+                        TextColor="#072146"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="36"
+                        Padding="16,0" />
+            </Grid>
+
+            <!--  PRINCIAPL -->
+            <Border BackgroundColor="#072146"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="20">
+                <VerticalStackLayout Spacing="14">
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Cuenta Principal"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               FontSize="15" />
+                        <Label Grid.Column="1"
+                               Text="{Binding UsuarioId, StringFormat='•{0:D4}'}"
+                               TextColor="#93C5FD"
+                               FontSize="13" />
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="{Binding SaldoTotal, StringFormat='{0:C}'}"
+                               TextColor="White"
+                               FontSize="34"
+                               FontAttributes="Bold" />
+                        <Label Text="Saldo disponible"
+                               TextColor="#CBD5E1"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+
+                    <!-- RESUMEN -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Ingresos" TextColor="#BFDBFE" FontSize="11" />
+                                <Label Text="{Binding TotalIngresos, StringFormat='+{0:C}'}"
+                                       TextColor="#4ADE80"
+                                       FontSize="15"
+                                       FontAttributes="Bold" />
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Grid.Column="1"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                Padding="12,10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Gastos / Ahorro" TextColor="#BFDBFE" FontSize="11" />
+                                <Label Text="{Binding TotalGastos, StringFormat='-{0:C}'}"
+                                       TextColor="#FCA5A5"
+                                       FontSize="15"
+                                       FontAttributes="Bold" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ACCIONES RÁPIDAS -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Lo que más haces"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       TextColor="#072146" />
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5" HorizontalOptions="Center">
+                        <Border WidthRequest="52" HeightRequest="52"
+                                StrokeShape="RoundRectangle 26"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0">
+                            <Label Text="+$" FontSize="16" FontAttributes="Bold" TextColor="White"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Ingreso" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5" HorizontalOptions="Center">
+                        <Border WidthRequest="52" HeightRequest="52"
+                                StrokeShape="RoundRectangle 26"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0">
+                            <Label Text="-$" FontSize="16" FontAttributes="Bold" TextColor="White"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Gasto" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" Spacing="5" HorizontalOptions="Center">
+                        <Border WidthRequest="52" HeightRequest="52"
+                                StrokeShape="RoundRectangle 26"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0">
+                            <Label Text="★" FontSize="16" TextColor="White"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Ahorro" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+
+            <Label Text="Últimos movimientos"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="#072146"
+                   Margin="0,2,0,0" />
+        </VerticalStackLayout>
+
+        <!-- SQL SERVER -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Movimientos}"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="6" Padding="20">
+                    <Label Text="Aún no tienes movimientos registrados"
+                           FontAttributes="Bold"
+                           TextColor="#475569"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Toca los botones circulares de arriba para registrar ingresos, gastos o metas."
+                           FontSize="12"
+                           TextColor="#94A3B8"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TransaccionBase">
+                    <Border BackgroundColor="White"
+                            Stroke="#E2E8F0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="14"
+                            Margin="0,0,0,10">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding Descripcion}"
+                                   FontAttributes="Bold"
+                                   FontSize="15"
+                                   TextColor="#072146" />
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding Monto, StringFormat='{0:C}'}"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="#004481" />
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding FechaMovimiento, StringFormat='{0:dd/MM/yyyy}'}"
+                                   FontSize="12"
+                                   TextColor="#64748B" />
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding TipoMovimiento}"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#1464A5"
+                                   HorizontalTextAlignment="End" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

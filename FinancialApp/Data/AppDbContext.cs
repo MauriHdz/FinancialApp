@@ -14,6 +14,8 @@ namespace FinancialApp.Data
         public DbSet<Gasto> Gastos { get; set; }
         public DbSet<AhorroMeta> AhorrosMeta { get; set; }
 
+        public DbSet<Deuda> Deudas { get; set; }
+
         //CONFIGURACION PARA LA CONEXION A LA BASE DE DATOS 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

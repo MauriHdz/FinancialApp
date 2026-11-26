@@ -109,7 +109,7 @@
                        FontAttributes="Bold"
                        TextColor="#072146" />
 
-                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
                     <VerticalStackLayout Grid.Column="0" Spacing="5" HorizontalOptions="Center">
                         <Border WidthRequest="52" HeightRequest="52"
                                 StrokeShape="RoundRectangle 26"
@@ -150,6 +150,19 @@
                                    HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                         <Label Text="Ahorro" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="3" Spacing="5" HorizontalOptions="Center">
+                        <Border WidthRequest="52" HeightRequest="52"
+            StrokeShape="RoundRectangle 26"
+            BackgroundColor="#004481"
+            StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AbrirSaludFinancieraCommand}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="♥" FontSize="16" TextColor="White"
+               HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Deudas" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Grid>
             </VerticalStackLayout>

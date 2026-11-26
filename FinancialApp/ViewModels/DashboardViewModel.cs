@@ -91,6 +91,19 @@ namespace FinancialApp.ViewModels
         }
 
         [RelayCommand]
+        private async Task AbrirSaludFinancieraAsync()
+        {
+            var parametros = new Dictionary<string, object>
+    {
+        { "UsuarioId", UsuarioId },
+        { "TotalIngresos", TotalIngresos },
+        { "TotalGastos", TotalGastos }
+    };
+
+            await Shell.Current.GoToAsync(nameof(Views.SaludFinancieraPage), parametros);
+        }
+
+        [RelayCommand]
         private async Task CerrarSesionAsync()
         {
             await Shell.Current.GoToAsync("..");

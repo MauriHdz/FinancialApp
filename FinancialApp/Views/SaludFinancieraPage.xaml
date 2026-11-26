@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FinancialApp.ViewModels"
+             xmlns:models="clr-namespace:FinancialApp.Models"
+             x:Class="FinancialApp.Views.SaludFinancieraPage"
+             x:DataType="vm:SaludFinancieraViewModel"
+             Title="Salud Financiera"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F4F6F9">
+
+    <ContentPage.BindingContext>
+        <vm:SaludFinancieraViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Grid ColumnDefinitions="Auto,*" VerticalOptions="Center">
+                <Button Grid.Column="0"
+                        Text="← Inicio"
+                        Command="{Binding VolverCommand}"
+                        BackgroundColor="#E2E8F0"
+                        TextColor="#072146"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="36"
+                        Padding="14,0" />
+                <Label Grid.Column="1"
+                       Text="Salud Financiera"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="#072146"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <Border BackgroundColor="#072146"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="18">
+                <VerticalStackLayout Spacing="12">
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout>
+                            <Label Text="Deuda Total Registrada" TextColor="#93C5FD" FontSize="12" />
+                            <Label Text="{Binding DeudaTotal, StringFormat='{0:C}'}"
+                                   TextColor="White"
+                                   FontSize="28"
+                                   FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" HorizontalOptions="End">
+                            <Label Text="Excedente Mensual" TextColor="#93C5FD" FontSize="12" HorizontalTextAlignment="End" />
+                            <Label Text="{Binding ExcedenteMensual, StringFormat='{0:C}'}"
+                                   TextColor="#4ADE80"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="4" IsVisible="{Binding EstaSimulando}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Simulando escenarios en segundo plano..." TextColor="#CBD5E1" FontSize="12" />
+                            <Button Grid.Column="1"
+                                    Text="Cancelar"
+                                    Command="{Binding CancelarSimulacionCommand}"
+                                    BackgroundColor="#DC2626"
+                                    TextColor="White"
+                                    FontSize="11"
+                                    HeightRequest="26"
+                                    Padding="10,0"
+                                    CornerRadius="6" />
+                        </Grid>
+                        <ProgressBar Progress="{Binding ProgresoSimulacion}" ProgressColor="#38BDF8" />
+                    </VerticalStackLayout>
+
+                    <Border BackgroundColor="#004481" StrokeThickness="0" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Diagnóstico de Endeudamiento" TextColor="#BFDBFE" FontSize="11" FontAttributes="Bold" />
+                            <Label Text="{Binding DiagnosticoSalud}" TextColor="White" FontSize="13" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#0F294A" Stroke="#38BDF8" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Estrategia Recomendada para Liquidar" TextColor="#38BDF8" FontSize="11" FontAttributes="Bold" />
+                            <Label Text="{Binding EstrategiaRecomendada}" TextColor="White" FontSize="13" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border Grid.Column="0" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="12">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Método Avalancha" FontAttributes="Bold" TextColor="#072146" FontSize="13" />
+                        <Label Text="Mayor interés primero" TextColor="#64748B" FontSize="11" />
+                        <Label Text="{Binding DetalleAvalancha}" TextColor="#004481" FontAttributes="Bold" FontSize="12" Margin="0,4,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="White" Stroke="#CBD5E1" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="12">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Bola de Nieve" FontAttributes="Bold" TextColor="#072146" FontSize="13" />
+                        <Label Text="Menor saldo primero" TextColor="#64748B" FontSize="11" />
+                        <Label Text="{Binding DetalleBolaNieve}" TextColor="#004481" FontAttributes="Bold" FontSize="12" Margin="0,4,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="16">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Registrar nueva deuda o tarjeta" FontSize="15" FontAttributes="Bold" TextColor="#072146" />
+
+                    <Entry Text="{Binding Acreedor}" Placeholder="Acreedor (ej. Tarjeta Azul, Préstamo)" TextColor="#0F172A" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Entry Grid.Column="0" Text="{Binding SaldoPendienteTexto}" Placeholder="Saldo total ($)" Keyboard="Numeric" TextColor="#0F172A" />
+                        <Entry Grid.Column="1" Text="{Binding TasaInteresTexto}" Placeholder="Tasa anual (%)" Keyboard="Numeric" TextColor="#0F172A" />
+                    </Grid>
+
+                    <Entry Text="{Binding PagoMinimoTexto}" Placeholder="Pago mínimo mensual ($)" Keyboard="Numeric" TextColor="#0F172A" />
+
+                    <Label Text="{Binding MensajeError}" TextColor="#DC2626" FontSize="12" />
+
+                    <Button Text="Agregar y Recalcular Plan"
+                            Command="{Binding AgregarDeudaCommand}"
+                            BackgroundColor="#004481"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HeightRequest="44" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Tus deudas activas (toca para liquidar)" FontSize="15" FontAttributes="Bold" TextColor="#072146" />
+
+            <CollectionView ItemsSource="{Binding Deudas}" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="No tienes deudas registradas. Agrega una arriba para simular tu plan de liquidación."
+                           TextColor="#64748B"
+                           FontSize="12"
+                           HorizontalTextAlignment="Center"
+                           Padding="12" />
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Deuda">
+                        <Border BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="14" Margin="0,0,0,8">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SaludFinancieraViewModel}}, Path=EliminarDeudaCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Acreedor}" FontAttributes="Bold" FontSize="15" TextColor="#072146" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding SaldoPendiente, StringFormat='{0:C}'}" FontAttributes="Bold" FontSize="15" TextColor="#DC2626" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding TasaInteresAnual, StringFormat='Tasa anual: {0}%'}" FontSize="12" TextColor="#64748B" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding PagoMinimoMensual, StringFormat='Mín: {0:C}/mes'}" FontSize="12" TextColor="#004481" HorizontalTextAlignment="End" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

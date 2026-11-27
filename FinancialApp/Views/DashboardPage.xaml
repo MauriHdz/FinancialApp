@@ -13,12 +13,12 @@
         <vm:DashboardViewModel />
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions="Auto,*" Padding="20" RowSpacing="16">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
 
-        <VerticalStackLayout Grid.Row="0" Spacing="16">
-
-            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
-                <VerticalStackLayout Spacing="2">
+            <!-- Encabezado limpio (Saludo + Reporte + Salir) -->
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
                     <Label Text="Inicio"
                            FontSize="13"
                            FontAttributes="Bold"
@@ -30,6 +30,16 @@
                 </VerticalStackLayout>
 
                 <Button Grid.Column="1"
+                        Text="Reporte"
+                        Command="{Binding ExportarReporteCommand}"
+                        BackgroundColor="#004481"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        HeightRequest="36"
+                        Padding="14,0" />
+
+                <Button Grid.Column="2"
                         Text="Salir"
                         Command="{Binding CerrarSesionCommand}"
                         BackgroundColor="#E2E8F0"
@@ -37,10 +47,10 @@
                         FontAttributes="Bold"
                         CornerRadius="20"
                         HeightRequest="36"
-                        Padding="16,0" />
+                        Padding="14,0" />
             </Grid>
 
-            <!--  PRINCIAPL -->
+          
             <Border BackgroundColor="#072146"
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 16"
@@ -68,7 +78,7 @@
                                FontSize="13" />
                     </VerticalStackLayout>
 
-                    <!-- RESUMEN -->
+                  
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
                         <Border Grid.Column="0"
                                 BackgroundColor="#004481"
@@ -102,7 +112,7 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- ACCIONES RÁPIDAS -->
+          
             <VerticalStackLayout Spacing="10">
                 <Label Text="Lo que más haces"
                        FontSize="15"
@@ -151,80 +161,98 @@
                         </Border>
                         <Label Text="Ahorro" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
+
                     <VerticalStackLayout Grid.Column="3" Spacing="5" HorizontalOptions="Center">
                         <Border WidthRequest="52" HeightRequest="52"
-            StrokeShape="RoundRectangle 26"
-            BackgroundColor="#004481"
-            StrokeThickness="0">
+                                StrokeShape="RoundRectangle 26"
+                                BackgroundColor="#004481"
+                                StrokeThickness="0">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding AbrirSaludFinancieraCommand}" />
                             </Border.GestureRecognizers>
                             <Label Text="♥" FontSize="16" TextColor="White"
-               HorizontalOptions="Center" VerticalOptions="Center" />
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                         <Label Text="Deudas" FontSize="12" TextColor="#334155" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Grid>
             </VerticalStackLayout>
 
+          
             <Label Text="Últimos movimientos"
                    FontSize="16"
                    FontAttributes="Bold"
                    TextColor="#072146"
                    Margin="0,2,0,0" />
+
+            <Border BackgroundColor="White"
+                    Stroke="#CBD5E1"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="4,0">
+                <SearchBar Placeholder="Buscar por concepto o tipo (Ingreso, Gasto)..."
+                           Text="{Binding TextoBusqueda}"
+                           TextColor="#0F172A"
+                           PlaceholderColor="#94A3B8"
+                           HeightRequest="44" />
+            </Border>
+
+            
+            <CollectionView ItemsSource="{Binding Movimientos}"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="6" Padding="20">
+                        <Label Text="No se encontraron movimientos"
+                               FontAttributes="Bold"
+                               TextColor="#475569"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Toca los botones circulares de arriba para registrar ingresos, gastos o metas."
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:TransaccionBase">
+                        <Border BackgroundColor="White"
+                                Stroke="#E2E8F0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 12"
+                                Padding="14"
+                                Margin="0,0,0,10">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DashboardViewModel}}, Path=OpcionesMovimientoCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Descripcion}"
+                                       FontAttributes="Bold"
+                                       FontSize="15"
+                                       TextColor="#072146" />
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Monto, StringFormat='{0:C}'}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#004481" />
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Text="{Binding FechaMovimiento, StringFormat='{0:dd/MM/yyyy}'}"
+                                       FontSize="12"
+                                       TextColor="#64748B" />
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       Text="{Binding TipoMovimiento}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="#1464A5"
+                                       HorizontalTextAlignment="End" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
         </VerticalStackLayout>
-
-        <!-- SQL SERVER -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding Movimientos}"
-                        SelectionMode="None">
-            <CollectionView.EmptyView>
-                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="6" Padding="20">
-                    <Label Text="Aún no tienes movimientos registrados"
-                           FontAttributes="Bold"
-                           TextColor="#475569"
-                           HorizontalTextAlignment="Center" />
-                    <Label Text="Toca los botones circulares de arriba para registrar ingresos, gastos o metas."
-                           FontSize="12"
-                           TextColor="#94A3B8"
-                           HorizontalTextAlignment="Center" />
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:TransaccionBase">
-                    <Border BackgroundColor="White"
-                            Stroke="#E2E8F0"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 12"
-                            Padding="14"
-                            Margin="0,0,0,10">
-                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
-                            <Label Grid.Row="0" Grid.Column="0"
-                                   Text="{Binding Descripcion}"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   TextColor="#072146" />
-                            <Label Grid.Row="0" Grid.Column="1"
-                                   Text="{Binding Monto, StringFormat='{0:C}'}"
-                                   FontSize="15"
-                                   FontAttributes="Bold"
-                                   TextColor="#004481" />
-                            <Label Grid.Row="1" Grid.Column="0"
-                                   Text="{Binding FechaMovimiento, StringFormat='{0:dd/MM/yyyy}'}"
-                                   FontSize="12"
-                                   TextColor="#64748B" />
-                            <Label Grid.Row="1" Grid.Column="1"
-                                   Text="{Binding TipoMovimiento}"
-                                   FontSize="12"
-                                   FontAttributes="Bold"
-                                   TextColor="#1464A5"
-                                   HorizontalTextAlignment="End" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </Grid>
+    </ScrollView>
 </ContentPage>
